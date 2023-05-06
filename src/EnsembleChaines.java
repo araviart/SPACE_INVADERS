@@ -11,4 +11,10 @@ public class EnsembleChaines {
             chaines.add(c);
     }
 
+    // public int getPosXChainePos(){
+    //     for(ChainePositionnee chaineencours : chaines){
+    //         return chaineencours.getPosX();
+    //     }
+    // }
+
 }
