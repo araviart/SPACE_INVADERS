@@ -3,9 +3,11 @@ public class ChainePositionnee{
     String c;
     public ChainePositionnee(int a,int b, String d){x=a; y=b; c=d;}
 
-
-    public int getPosX(){
+    public int getXChaine(){
         return this.x;
     }
 
+    public int getYChaine(){
+        return this.y;
+    }
 }
