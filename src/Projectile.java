@@ -1,6 +1,6 @@
 public class Projectile{
-  private double positionX;
-  private double positionY;
+  public double positionX;
+public double positionY;
 
   public Projectile(double positionX){
     this.positionX = positionX;
@@ -19,6 +19,11 @@ public class Projectile{
 
 
   public double getPosProjectileY(){
+    return this.positionY;
+  }
+
+
+  public double getPosProjectileX(){
     return this.positionY;
   }
 

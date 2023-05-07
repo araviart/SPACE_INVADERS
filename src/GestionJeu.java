@@ -13,27 +13,27 @@ public class GestionJeu {
     private long tempsDernierTir = 0;
     private long intervalleEntreTirs = 500;
     private Score score;
-    private boolean apparenceAlien;
-    
+    private Objet objet;
 
     public GestionJeu() {
         this.largeur = 100;
         this.hauteur = 60;
-        this.vaisseau = new Vaisseau(positionX-5);
+        this.vaisseau = new Vaisseau(positionX - 5);
         this.projectiles = new ArrayList<>();
+        this.objet = new ArrayList<>();
         this.aliens = new ArrayList<>();
         this.aliens.addAll(Arrays.asList(
-            new Aliens(this.largeur - 25, 50),
-            new Aliens(this.largeur - 40, 50),
-            new Aliens(this.largeur - 55, 50),
-            new Aliens(this.largeur - 70, 50),
-            new Aliens(this.largeur - 85, 50),
-            new Aliens(this.largeur - 25, 40),
-            new Aliens(this.largeur - 40, 40),
-            new Aliens(this.largeur - 55, 40),
-            new Aliens(this.largeur - 70, 40),
-            new Aliens(this.largeur - 85, 40)
-        ));        this.score = new Score();
+                new Aliens(this.largeur - 25, 50),
+                new Aliens(this.largeur - 40, 50),
+                new Aliens(this.largeur - 55, 50),
+                new Aliens(this.largeur - 70, 50),
+                new Aliens(this.largeur - 85, 50),
+                new Aliens(this.largeur - 25, 40),
+                new Aliens(this.largeur - 40, 40),
+                new Aliens(this.largeur - 55, 40),
+                new Aliens(this.largeur - 70, 40),
+                new Aliens(this.largeur - 85, 40)));
+        this.score = new Score();
     }
 
     public int getHauteur() {
@@ -74,29 +74,41 @@ public class GestionJeu {
             ensemble.union(projectile.getEnsembleChaines());
         }
         for (Aliens alien : this.aliens) {
-            if(alien.getNbTour()%2==0){
-                ensemble.union(alien.getEnsembleChaines());
-            }
-            else{
-                alien.get()
-            }
+            ensemble.union(alien.getEnsembleChaines());
         }
-        ensemble.ajouteChaine(5, this.hauteur-3, String.valueOf(score));
+        ensemble.ajouteChaine(5, this.hauteur - 3, String.valueOf(score));
         return ensemble;
     }
 
     public void jouerUnTour() {
+        List<Aliens> alienTouche = new ArrayList<>();
+        List<Projectile> projectileQuiOntTouche = new ArrayList<>();
+    
+        for (Projectile proj : this.projectiles) {
+            for (Aliens alien : this.aliens) {
+                if (alien.contient((int) proj.positionX, (int) proj.positionY)) {
+                    alienTouche.add(alien);
+                    projectileQuiOntTouche.add(proj);
+                }
+            }
+        }
+        this.aliens.removeAll(alienTouche);
+        this.projectiles.removeAll(projectileQuiOntTouche);
+        this.score.ajoute(alienTouche.size());
+    
+        for (Aliens alien : this.aliens) {
+            alien.evolue();
+        }
+    
         for (int i = 0; i < this.projectiles.size(); ++i) {
-            projectiles.get(i).evolue();
-            System.out.println(projectiles);
-            if (projectiles.get(i).getPosProjectileY() > this.largeur - 50) {
-                projectiles.remove(i);
+            Projectile projectile = this.projectiles.get(i);
+            projectile.evolue();
+            System.out.println(projectile);
+            if (projectile.positionY > this.largeur - 50) {
+                this.projectiles.remove(i);
                 i--;
             }
         }
-        this.score.ajoute(1);
-        for(Aliens alien : this.aliens){
-            alien.evolue();
-        }     
-    }
+        }
+
 }
