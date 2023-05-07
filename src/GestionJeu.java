@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class GestionJeu {
 
@@ -13,7 +14,9 @@ public class GestionJeu {
     private long tempsDernierTir = 0;
     private long intervalleEntreTirs = 500;
     private Score score;
-    private Objet objet;
+    List<Aliens> alienTouche;
+    private List<Objet> objet;
+    private List<Objet> objetsPossible;
 
     public GestionJeu() {
         this.largeur = 100;
@@ -22,6 +25,9 @@ public class GestionJeu {
         this.projectiles = new ArrayList<>();
         this.objet = new ArrayList<>();
         this.aliens = new ArrayList<>();
+        this.alienTouche = new ArrayList<>();
+        // this.objetsPossible = n
+        // Objet objetAleatoire = objets.get(random.nextInt(objets.size())); // l'objet aléatoire obtenu
         this.aliens.addAll(Arrays.asList(
                 new Aliens(this.largeur - 25, 50),
                 new Aliens(this.largeur - 40, 50),
@@ -77,38 +83,72 @@ public class GestionJeu {
             ensemble.union(alien.getEnsembleChaines());
         }
         ensemble.ajouteChaine(5, this.hauteur - 3, String.valueOf(score));
+        for (Objet objet : this.objet) {
+            ensemble.union(objet.getEnsembleChaines());
+        }
         return ensemble;
+        
     }
-
-    public void jouerUnTour() {
-        List<Aliens> alienTouche = new ArrayList<>();
-        List<Projectile> projectileQuiOntTouche = new ArrayList<>();
     
+    public void jouerUnTour() {
+        List<Projectile> projectileQuiOntTouche = new ArrayList<>();
+        Random rand = new Random();
+        boolean alienATouche = false;
         for (Projectile proj : this.projectiles) {
             for (Aliens alien : this.aliens) {
                 if (alien.contient((int) proj.positionX, (int) proj.positionY)) {
                     alienTouche.add(alien);
+                    alienATouche = true;
                     projectileQuiOntTouche.add(proj);
                 }
             }
         }
+        
+        for (Objet objetActu : this.objet) {
+            if (vaisseau.contient((int) objetActu.getPosXObj(), (int) objetActu.getPosYObj())) {
+                // objetActu.typeObjet();
+                System.out.println("Objet reçu");
+            }
+        }
+        
+        // System.out.println(alienTouche);
         this.aliens.removeAll(alienTouche);
         this.projectiles.removeAll(projectileQuiOntTouche);
         this.score.ajoute(alienTouche.size());
-    
+
         for (Aliens alien : this.aliens) {
             alien.evolue();
         }
-    
+
         for (int i = 0; i < this.projectiles.size(); ++i) {
             Projectile projectile = this.projectiles.get(i);
             projectile.evolue();
-            System.out.println(projectile);
+            // System.out.println(projectile);
             if (projectile.positionY > this.largeur - 50) {
                 this.projectiles.remove(i);
                 i--;
             }
         }
-        }
 
+        for (int j = 0; j < this.objet.size(); ++j) {
+            Objet objetActu = this.objet.get(j);
+            objetActu.evolue();
+            // System.out.println(objetActu);
+            if (objetActu.getPosYObj() <= 1) {
+                this.objet.remove(j);
+                j--;
+            }
+        }
+        if (alienATouche) {
+            double posYSpawnObjet = alienTouche.get(alienTouche.size() - 1).getPosYAlien();
+            double posXSpawnObjet = alienTouche.get(alienTouche.size() - 1).getPosXAlien();
+            if (rand.nextDouble() <= 0.2) { // objet tombe avec une probabilité de 30%
+                System.out.println("l'objet doit pop");
+                this.objet.add(new Objet((int) posXSpawnObjet, (int) posYSpawnObjet));
+            }
+        }
+    
+        alienTouche.clear();
+        alienATouche = false;
+    }
 }

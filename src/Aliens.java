@@ -44,6 +44,10 @@ public class Aliens {
     return this.posX;
   }
 
+  public double getPosYAlien() {
+    return this.posY;
+  }
+
   public void evolue() {
     if (!etat && tour < 100) {
       posX += 0.1;

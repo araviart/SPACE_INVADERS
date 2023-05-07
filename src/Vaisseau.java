@@ -28,6 +28,10 @@ public class Vaisseau {
   public double getPosXvaisseau(){
     return this.posX;
   }
+  
+  public boolean contient(int x, int y) {
+    return this.getEnsembleChaines().contient(x, y);
+  }
 
 
 }

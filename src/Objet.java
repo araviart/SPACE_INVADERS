@@ -3,11 +3,16 @@ public class Objet{
   private double posXObj;
   private double posYObj;
 
+  
   public Objet(double posXObj, double posYObj) {
     this.posXObj = posXObj;
     this.posYObj = posYObj;
   }
 
+  public String typeObjet(){
+    return "";
+  }
+  
   public EnsembleChaines getEnsembleChaines() {
     EnsembleChaines objet = new EnsembleChaines();
     objet.ajouteChaine((int) posXObj, (int) posYObj, "⋐☢⋑");
@@ -15,7 +20,14 @@ public class Objet{
   }
 
   public void evolue(){
-    this.posXObj -= 0.2;
+    this.posYObj -= 0.2;
+  }
+  
+  public double getPosYObj() {
+    return this.posYObj;
   }
 
+  public double getPosXObj() {
+    return this.posYObj;
+  }
 }
