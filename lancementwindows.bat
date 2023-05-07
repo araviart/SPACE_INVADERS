@@ -1,2 +1,2 @@
 javac -d bin --module-path "D:/Softwares/JavaFX/javafx-sdk-20/lib" --add-modules javafx.controls src/*.java
-java -cp bin "D:/Softwares/JavaFX/javafx-sdk-20/lib" --add-modules javafx.controls Executable
+java --module-path "D:/Softwares/JavaFX/javafx-sdk-20/lib" --add-modules javafx.controls -cp bin Executable 

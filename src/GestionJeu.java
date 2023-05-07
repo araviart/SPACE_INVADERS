@@ -1,30 +1,24 @@
 import java.util.List;
+public class GestionJeu {
 
-public class GestionJeu{
-    
     private int hauteur;
     private int largeur;
-    private EnsembleChaines ensemble;
-    private int positionX = 0;
+    private int positionX = 50;
     private Vaisseau vaisseau;
 
-    
-    public GestionJeu(){
+    public GestionJeu() {
         this.largeur = 100;
         this.hauteur = 60;
-        positionX = 0;
-        this.ensemble.ajouteChaine(positionX, 30, "@@");
-        this.vaisseau = new Vaisseau((double) positionX);
+        this.vaisseau = new Vaisseau(positionX);
     }
-    
-    public GestionJeu(int largeur, int hauteur){
+
+    public GestionJeu(int largeur, int hauteur) {
         this.largeur = largeur;
         this.hauteur = hauteur;
-        this.ensemble.ajouteChaine(positionX, 30, "@@");
-        positionX = 0;
-        this.vaisseau = new Vaisseau((double) positionX);
+        this.vaisseau = new Vaisseau(positionX);
+
     }
-    
+
     public int getHauteur() {
         return this.hauteur;
     }
@@ -33,30 +27,28 @@ public class GestionJeu{
         return this.largeur;
     }
 
-    public void toucheGauche(){
-        System.out.println("Appui sur la touche espace");
+    public void toucheGauche() {
+        this.vaisseau.deplace(-1);
     }
 
-    public void toucheDroite(){
-        this.positionX++;
-        this.vaisseau.deplace(1.);
+    public void toucheDroite() {
+        if (this.vaisseau.getPosXvaisseau()+ this.vaisseau.getEnsembleChaines().chaines.get(0).c.length() < this.largeur) {
+            this.vaisseau.deplace(1);
+        }
     }
 
-    public void toucheEspace(){
-        // key.getCode()==KeyCode.SPACE;
+    public void toucheEspace() {
+        // key.getCode()==KeyCode.SPACE
     }
 
-
-    public EnsembleChaines getChaines(){
-        return this.ensemble;
-    }
-
-    public void jouerUnTour(){
+    public EnsembleChaines getChaines() {
+        EnsembleChaines ensemble = new EnsembleChaines();
+        ensemble.union(this.vaisseau.getEnsembleChaines());
+        return ensemble;
 
     }
 
+    public void jouerUnTour() {
+    }
 
-
-    
-    
 }
