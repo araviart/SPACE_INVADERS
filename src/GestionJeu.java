@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GestionJeu {
@@ -8,22 +9,31 @@ public class GestionJeu {
     private int positionX = 50;
     private Vaisseau vaisseau;
     private List<Projectile> projectiles;
+    private List<Aliens> aliens;
     private long tempsDernierTir = 0;
     private long intervalleEntreTirs = 500;
-    private int score;
+    private Score score;
+    private boolean apparenceAlien;
+    
 
     public GestionJeu() {
         this.largeur = 100;
         this.hauteur = 60;
-        this.vaisseau = new Vaisseau(positionX);
+        this.vaisseau = new Vaisseau(positionX-5);
         this.projectiles = new ArrayList<>();
-    }
-
-    public GestionJeu(int largeur, int hauteur) {
-        this.largeur = largeur;
-        this.hauteur = hauteur;
-        this.vaisseau = new Vaisseau(positionX);
-        this.projectiles = new ArrayList<>();
+        this.aliens = new ArrayList<>();
+        this.aliens.addAll(Arrays.asList(
+            new Aliens(this.largeur - 25, 50),
+            new Aliens(this.largeur - 40, 50),
+            new Aliens(this.largeur - 55, 50),
+            new Aliens(this.largeur - 70, 50),
+            new Aliens(this.largeur - 85, 50),
+            new Aliens(this.largeur - 25, 40),
+            new Aliens(this.largeur - 40, 40),
+            new Aliens(this.largeur - 55, 40),
+            new Aliens(this.largeur - 70, 40),
+            new Aliens(this.largeur - 85, 40)
+        ));        this.score = new Score();
     }
 
     public int getHauteur() {
@@ -63,7 +73,15 @@ public class GestionJeu {
         for (Projectile projectile : this.projectiles) {
             ensemble.union(projectile.getEnsembleChaines());
         }
-        ensemble.ajouteChaine(5, this.hauteur-3, String.valueOf(this.score));
+        for (Aliens alien : this.aliens) {
+            if(alien.getNbTour()%2==0){
+                ensemble.union(alien.getEnsembleChaines());
+            }
+            else{
+                alien.get()
+            }
+        }
+        ensemble.ajouteChaine(5, this.hauteur-3, String.valueOf(score));
         return ensemble;
     }
 
@@ -76,5 +94,9 @@ public class GestionJeu {
                 i--;
             }
         }
+        this.score.ajoute(1);
+        for(Aliens alien : this.aliens){
+            alien.evolue();
+        }     
     }
 }

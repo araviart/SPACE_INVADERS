@@ -10,6 +10,4 @@ public class EnsembleChaines {
         for(ChainePositionnee c : e.chaines)
             chaines.add(c);
     }
-
-
 }
