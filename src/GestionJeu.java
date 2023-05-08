@@ -30,7 +30,6 @@ public class GestionJeu {
         this.alienTouche = new ArrayList<>();
         this.objetsPossible = Arrays.asList("Nuke", "Multiple");
         this.niveau = 1;
-
         this.aliens.addAll(Arrays.asList(
                 new Aliens(this.largeur - 25, 50),
                 new Aliens(this.largeur - 40, 50),
@@ -55,13 +54,24 @@ public class GestionJeu {
     }
 
     public void toucheGauche() {
-        this.vaisseau.deplace(-1);
+        double vitesse_deplacement = niveau;
+        if (niveau > 3){
+        vitesse_deplacement = 3;
+        }
+        if (this.vaisseau.getPosXvaisseau()
+                + this.vaisseau.getEnsembleChaines().chaines.get(0).c.length() > 0 + this.vaisseau.getEnsembleChaines().chaines.get(0).c.length()) {
+            this.vaisseau.deplace(-vitesse_deplacement);
+        }
     }
 
     public void toucheDroite() {
+        double vitesse_deplacement = niveau;
+        if (niveau > 3){
+        vitesse_deplacement = 3;
+        }
         if (this.vaisseau.getPosXvaisseau()
-                + this.vaisseau.getEnsembleChaines().chaines.get(0).c.length() < this.largeur) {
-            this.vaisseau.deplace(1);
+                + this.vaisseau.getEnsembleChaines().chaines.get(0).c.length() <= this.largeur) {
+            this.vaisseau.deplace(vitesse_deplacement);
         }
     }
 
@@ -86,7 +96,7 @@ public class GestionJeu {
             default:
             case "Vanilla":
                 this.projectiles.add(new Projectile((int) positionCanon));
-        }// case switch en fonction de l'objet
+        }
 
     }
 
@@ -101,7 +111,8 @@ public class GestionJeu {
         }
         ensemble.ajouteChaine(5, this.hauteur - 3, String.valueOf(score));
         ensemble.ajouteChaine(this.largeur - 10, this.hauteur - 3, this.modeObjet);
-        ensemble.ajouteChaine(this.largeur - 15, this.hauteur - 3, String.valueOf(vaisseau.vie));
+        ensemble.ajouteChaine(this.largeur - 20, this.hauteur - 3, "PV :" + vaisseau.vie);
+        ensemble.ajouteChaine(this.largeur - 30, this.hauteur - 3, "NIVEAU :" + this.niveau);
         for (Objet objet : this.objet) {
             ensemble.union(objet.getEnsembleChaines());
         }
@@ -153,15 +164,16 @@ public class GestionJeu {
 
         for (Aliens alien : this.aliens) {
             alien.evolue();
-            if (rand.nextDouble() <= 0.001) {
-                this.projectiles.add(new Projectile((int) alien.positionCanon(), (int) alien.getPosYAlien()));
+            if (rand.nextDouble() <= niveau/1000) {
+                double max = this.niveau;
+                this.projectiles.add(new Projectile((int) alien.positionCanon(), (int) alien.getPosYAlien(), -(0.2 + (max - 0.2) * rand.nextDouble())));
             }
         }
 
         for (int i = 0; i < this.projectiles.size(); ++i) {
             Projectile projectile = this.projectiles.get(i);
             if (projectile.estAlien()) {
-                projectile.evolue(0.2);
+                projectile.evolue();
             } else {
                 projectile.evolue();
             }
@@ -182,7 +194,25 @@ public class GestionJeu {
             }
         }
 
+        if(this.aliens.isEmpty()){
+            this.niveau +=1;
+            niveauSuivant();
+        }
+
         alienTouche.clear();
         alienATouche = false;
+    }
+
+    public void niveauSuivant(){
+        switch(niveau){
+            case 2:
+            this.aliens.addAll(Arrays.asList(
+                new AlienEvoUn(this.largeur - 25, 50),
+                new AlienEvoUn(this.largeur - 55, 60),
+                new AlienEvoUn(this.largeur - 70, 70),
+                new AlienEvoUn(this.largeur - 25, 80),
+                new AlienEvoUn(this.largeur - 40, 90),
+                new AlienEvoUn(this.largeur - 20, 90)));
+        }
     }
 }

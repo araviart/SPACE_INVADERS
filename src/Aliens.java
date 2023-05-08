@@ -1,6 +1,4 @@
 import java.util.List;
-import javafx.scene.paint.Color;
-
 
 public class Aliens {
   private double posX;
@@ -22,17 +20,17 @@ public class Aliens {
 
   public EnsembleChaines getEnsembleChaines() {
     EnsembleChaines alien = new EnsembleChaines();
-    alien.ajouteChaine((int) posX, (int) posY + 4, "  ▀▄   ▄▀  ", Color.GREEN);
-    alien.ajouteChaine((int) posX, (int) posY + 3, " ▄█▀███▀█▄ ", Color.GREEN);
-    alien.ajouteChaine((int) posX, (int) posY + 2, "█▀███████ █", Color.GREEN);
-    alien.ajouteChaine((int) posX, (int) posY + 1, "█ █▀▀▀▀▀█ █", Color.GREEN);
+    alien.ajouteChaine((int) posX, (int) posY + 4, "  ▀▄   ▄▀  ", "0x32CD32");
+    alien.ajouteChaine((int) posX, (int) posY + 3, " ▄█▀███▀█▄ ", "0x32CD32");
+    alien.ajouteChaine((int) posX, (int) posY + 2, "█▀███████ █", "0x32CD32");
+    alien.ajouteChaine((int) posX, (int) posY + 1, "█ █▀▀▀▀▀█ █", "0x32CD32");
 
     if (tour % 20 == 0) {
       estApparenceSpeciale = !estApparenceSpeciale;
     } else if (estApparenceSpeciale) {
-      alien.ajouteChaine((int) posX, (int) posY, "  ▀▀   ▀▀ ", Color.GREEN);
+      alien.ajouteChaine((int) posX, (int) posY, "  ▀▀   ▀▀ ", "0x32CD32");
     } else if (!estApparenceSpeciale || this.tour < 20) {
-      alien.ajouteChaine((int) posX, (int) posY, " ▀▀     ▀▀", Color.GREEN);
+      alien.ajouteChaine((int) posX, (int) posY, " ▀▀     ▀▀", "0x32CD32");
     }
     return alien;
 }

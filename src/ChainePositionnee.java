@@ -2,7 +2,7 @@ import javafx.scene.paint.Color;
 public class ChainePositionnee {
     int x, y;
     String c;
-    Color couleur;
+    private String couleur;
 
     public ChainePositionnee(int a, int b, String d) {
         x = a;
@@ -12,7 +12,7 @@ public class ChainePositionnee {
 
     }
 
-    public ChainePositionnee(int a, int b, String d, Color couleur) {
+    public ChainePositionnee(int a, int b, String d, String couleur) {
         x = a;
         y = b;
         c = d;
@@ -29,6 +29,10 @@ public class ChainePositionnee {
 
     public int getYChaine() {
         return this.y;
+    }
+
+    public String getCouleur(){
+        return this.couleur;
     }
 
 }

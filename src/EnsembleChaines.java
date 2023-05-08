@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
-import javafx.scene.paint.Color;
 
 
 public class EnsembleChaines {
@@ -14,7 +12,7 @@ public class EnsembleChaines {
         chaines.add(new ChainePositionnee(x, y, c));
     }
 
-    public void ajouteChaine(int x, int y, String c, Color couleur) {
+    public void ajouteChaine(int x, int y, String c, String couleur) {
         chaines.add(new ChainePositionnee(x, y, c, couleur));
     }
 

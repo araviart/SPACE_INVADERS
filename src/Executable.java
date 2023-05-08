@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.util.Duration;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 
 
 
@@ -35,6 +36,9 @@ public class Executable extends Application {
             Text t = new Text (c.x*largeurCaractere,hauteur - c.y*hauteurTexte, c.c);
             t.setFont(Font.font ("Monospaced", 11));
             caracteres.getChildren().add(t);
+            if(c.getCouleur() != null){
+            t.setFill(Color.web(c.getCouleur()));
+        }
         }
     }
 
