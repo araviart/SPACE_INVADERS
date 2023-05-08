@@ -1,10 +1,13 @@
 import java.util.List;
 
 public class Vaisseau {
+
+  public int vie;
   private double posX;
 
   public Vaisseau(double posX) {
     this.posX = posX;
+    this.vie = 3;
 }
 
   public void deplace(double dx){
@@ -27,6 +30,10 @@ public class Vaisseau {
 
   public double getPosXvaisseau(){
     return this.posX;
+  }
+  
+  public boolean contient(int x, int y) {
+    return this.getEnsembleChaines().contient(x, y);
   }
 
 

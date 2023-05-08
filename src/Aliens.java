@@ -44,6 +44,10 @@ public class Aliens {
     return this.posX;
   }
 
+  public double getPosYAlien() {
+    return this.posY;
+  }
+
   public void evolue() {
     if (!etat && tour < 100) {
       posX += 0.1;
@@ -64,5 +68,9 @@ public class Aliens {
 
   public boolean contient(int x, int y) {
     return this.getEnsembleChaines().contient(x, y);
+  }
+
+  public double positionCanon(){
+    return this.getEnsembleChaines().chaines.get(1).c.length()/2 + this.posX;
   }
 }
