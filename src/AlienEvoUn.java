@@ -6,15 +6,14 @@ private boolean droite;
 
 
 /**
- * Alien évolue pour le niveau 2, 
- * @param posX
- * @param posY
+ * alien évolué pour le niveau 2, 
+ * @param posX position horizontale de l'alien
+ * @param posY position verticale de l'alien
  */
 
- 
   public AlienEvoUn(double posX, double posY) {
     super(posX, posY);
-    this.posX = posX;
+    this.posX = posX; // réattribution pour conserver la valeur des attributs
     this.posY = posY;
     tour = 0;
   }
@@ -30,6 +29,10 @@ private boolean droite;
     return alienEvoUn;
   }
 
+
+  /**
+   * vacille de droite à gauche en descendant
+   */
   @Override
   public void evolue() {
     if (tour > 30) {

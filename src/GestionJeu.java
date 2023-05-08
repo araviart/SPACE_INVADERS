@@ -3,6 +3,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Constructeur de la classe GestionJeu.
+ * 
+ * @param hauteur  la hauteur de l'écran de jeu
+ * @param largeur la largeur de l'écran de jeu
+ * @param vaisseau  le vaisseau contrôlé par le joueur
+ * @param aliens la liste des ennemis présents sur l'écran de jeu
+ * @param score  le score actuel du joueur
+ * @param objetsPossible la liste des types d'objets qui peuvent apparaître sur l'écran de jeu
+ * @param modeObjet l'effet actuelle de l'objet acquis dans le tour précedent
+ * @param alienTouche liste  servant à supprimez à chaque tour les aliens touchées par un projectile
+ * @param tempsDernierTir utilisation de la classe System pour permettre de faire la différence entre le tir actuelle et l'ancien
+ * @param intervalleEntreTirs valeur exigée minimum entre les tirs
+ */
+
 public class GestionJeu {
     private int hauteur;
     private int largeur;
@@ -29,12 +44,13 @@ public class GestionJeu {
     public GestionJeu() {
         this.largeur = 100;
         this.hauteur = 60;
-        this.vaisseau = new Vaisseau(positionX - 5);
+        this.vaisseau = new Vaisseau(largeur/2-5);
         this.projectiles = new ArrayList<>();
         this.objet = new ArrayList<>();
         this.aliens = new ArrayList<>();
         this.alienTouche = new ArrayList<>();
-        this.objetsPossible = Arrays.asList("Nuke", "Multiple");
+        this.objetsPossible = Arrays.asList("Nuke", "Multiple"); // à maintenir si l'on souhaite rajouter des objets en
+                                                                 // plus
         this.niveau = 1;
         this.aliens.addAll(Arrays.asList(
                 new Aliens(this.largeur - 25, 50),
@@ -318,7 +334,7 @@ public class GestionJeu {
                                                                   // (implique de changer la condition qui incrémente le
                                                                   // niveau dans GestionJeui)
             case 3:
-            this.getChaines();
+                this.getChaines();
 
         }
     }
