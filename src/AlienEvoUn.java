@@ -3,6 +3,15 @@ public class AlienEvoUn extends Aliens {
   private double posY;
 private int tour;
 private boolean droite;
+
+
+/**
+ * Alien évolue pour le niveau 2, 
+ * @param posX
+ * @param posY
+ */
+
+ 
   public AlienEvoUn(double posX, double posY) {
     super(posX, posY);
     this.posX = posX;
