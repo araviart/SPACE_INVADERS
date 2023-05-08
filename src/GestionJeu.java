@@ -16,8 +16,8 @@ public class GestionJeu {
     private Score score;
     List<Aliens> alienTouche;
     private List<Objet> objet;
-    private List<Objet> objetsPossible;
-
+    private List<String> objetsPossible;
+    private String modeObjet;
     public GestionJeu() {
         this.largeur = 100;
         this.hauteur = 60;
@@ -26,8 +26,8 @@ public class GestionJeu {
         this.objet = new ArrayList<>();
         this.aliens = new ArrayList<>();
         this.alienTouche = new ArrayList<>();
-        // this.objetsPossible = n
-        // Objet objetAleatoire = objets.get(random.nextInt(objets.size())); // l'objet aléatoire obtenu
+        this.objetsPossible = Arrays.asList( "Nuke", "Contagion", "Multiple");
+
         this.aliens.addAll(Arrays.asList(
                 new Aliens(this.largeur - 25, 50),
                 new Aliens(this.largeur - 40, 50),
@@ -39,6 +39,7 @@ public class GestionJeu {
                 new Aliens(this.largeur - 55, 40),
                 new Aliens(this.largeur - 70, 40),
                 new Aliens(this.largeur - 85, 40)));
+        this.modeObjet = "Vanilla";
         this.score = new Score();
     }
 
@@ -68,8 +69,22 @@ public class GestionJeu {
             return;
         }
         double positionCanon = this.vaisseau.positionCanon();
-        this.projectiles.add(new Projectile((int) positionCanon));
         tempsDernierTir = tempsActuel;
+        switch(modeObjet){
+            case "Nuke":
+            this.projectiles.add(new ProjectileNuke((int) positionCanon));
+            this.modeObjet = "Vanilla";
+            break;
+            case "Contagion":
+            this.projectiles.add(new Projectile((int) positionCanon));
+            this.modeObjet = "Vanilla";
+            case "Multiple":
+            this.projectiles.add(new ProjectileNuke((int) positionCanon));
+            this.modeObjet = "Vanilla";
+            default:
+            case "Vanilla":
+            this.projectiles.add(new Projectile((int) positionCanon));
+        }// case switch en fonction de l'objet
 
     }
 
@@ -83,13 +98,14 @@ public class GestionJeu {
             ensemble.union(alien.getEnsembleChaines());
         }
         ensemble.ajouteChaine(5, this.hauteur - 3, String.valueOf(score));
+        ensemble.ajouteChaine(this.largeur - 10, this.hauteur - 3, this.modeObjet);
         for (Objet objet : this.objet) {
             ensemble.union(objet.getEnsembleChaines());
         }
         return ensemble;
-        
+
     }
-    
+
     public void jouerUnTour() {
         List<Projectile> projectileQuiOntTouche = new ArrayList<>();
         Random rand = new Random();
@@ -100,17 +116,30 @@ public class GestionJeu {
                     alienTouche.add(alien);
                     alienATouche = true;
                     projectileQuiOntTouche.add(proj);
+                    if(this.modeObjet == "Contagion"){
+                        this.projectiles.add(new ProjectileContagion((int) alien.getPosXAlien(), alien.getPosYAlien()));
+                        this.projectiles.add(new ProjectileContagion((int) alien.getPosXAlien(), alien.getPosYAlien()));
+                        this.projectiles.add(new ProjectileContagion((int) alien.getPosXAlien(), alien.getPosYAlien()));
+                        this.projectiles.add(new ProjectileContagion((int) alien.getPosXAlien(), alien.getPosYAlien()));
+                    }
                 }
             }
         }
-        
-        for (Objet objetActu : this.objet) {
-            if (vaisseau.contient((int) objetActu.getPosXObj(), (int) objetActu.getPosYObj())) {
-                // objetActu.typeObjet();
-                System.out.println("Objet reçu");
+
+        if (alienATouche) {
+            double posYSpawnObjet = alienTouche.get(alienTouche.size() - 1).getPosYAlien();
+            double posXSpawnObjet = alienTouche.get(alienTouche.size() - 1).getPosXAlien();
+            if (rand.nextDouble() <= 0.3) { // objet tombe avec une probabilité de 30%
+                this.objet.add(new Objet((int) posXSpawnObjet, (int) posYSpawnObjet));
             }
         }
-        
+        for (Objet objetActu : this.objet) {
+            if (vaisseau.contient((int) objetActu.getPosXObj(), (int) objetActu.getPosYObj())) {
+                this.modeObjet = objetsPossible.get(rand.nextInt(objetsPossible.size()));
+
+            }
+        }
+
         // System.out.println(alienTouche);
         this.aliens.removeAll(alienTouche);
         this.projectiles.removeAll(projectileQuiOntTouche);
@@ -120,6 +149,7 @@ public class GestionJeu {
             alien.evolue();
         }
 
+        // fait évoluer projectile
         for (int i = 0; i < this.projectiles.size(); ++i) {
             Projectile projectile = this.projectiles.get(i);
             projectile.evolue();
@@ -139,15 +169,7 @@ public class GestionJeu {
                 j--;
             }
         }
-        if (alienATouche) {
-            double posYSpawnObjet = alienTouche.get(alienTouche.size() - 1).getPosYAlien();
-            double posXSpawnObjet = alienTouche.get(alienTouche.size() - 1).getPosXAlien();
-            if (rand.nextDouble() <= 0.2) { // objet tombe avec une probabilité de 30%
-                System.out.println("l'objet doit pop");
-                this.objet.add(new Objet((int) posXSpawnObjet, (int) posYSpawnObjet));
-            }
-        }
-    
+
         alienTouche.clear();
         alienATouche = false;
     }

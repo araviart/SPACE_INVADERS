@@ -15,10 +15,13 @@ public class Objet{
   
   public EnsembleChaines getEnsembleChaines() {
     EnsembleChaines objet = new EnsembleChaines();
-    objet.ajouteChaine((int) posXObj, (int) posYObj, "⋐☢⋑");
+    objet.ajouteChaine((int) posXObj, (int) posYObj+1, "              ");
+    objet.ajouteChaine((int) posXObj, (int) posYObj, "     ⋐☢⋑     ");
+    objet.ajouteChaine((int) posXObj, (int) posYObj-1, "              ");
     return objet;
   }
 
+  
   public void evolue(){
     this.posYObj -= 0.2;
   }
@@ -28,6 +31,6 @@ public class Objet{
   }
 
   public double getPosXObj() {
-    return this.posYObj;
+    return this.posXObj;
   }
 }
