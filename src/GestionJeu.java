@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 public class GestionJeu {
-
     private int hauteur;
     private int largeur;
     private int positionX = 50;
@@ -116,11 +115,24 @@ public class GestionJeu {
         for (Objet objet : this.objet) {
             ensemble.union(objet.getEnsembleChaines());
         }
+        if(vaisseau.vie == 0){
+            String messageDefaite = "VOUS AVEZ PERDUE";
+            ensemble.ajouteChaine(this.largeur/2-(messageDefaite.length()/2), this.hauteur/2, messageDefaite);
+        }
+        if(this.niveau== 3){
+            String messageNivTrois= "FIN DU JEU (oui)";
+            ensemble.ajouteChaine(this.largeur/2-(messageNivTrois.length()/2), this.hauteur/2, messageNivTrois);
+        }
         return ensemble;
 
     }
 
     public void jouerUnTour() {
+        if(vaisseau.vie == 0){
+            projectiles.clear();
+            aliens.clear();
+            return; 
+        }
         List<Projectile> projectileQuiOntTouche = new ArrayList<>();
         Random rand = new Random();
         boolean alienATouche = false;
@@ -145,6 +157,7 @@ public class GestionJeu {
             if (vaisseau.contient((int) objetActu.getPosXObj(), (int) objetActu.getPosYObj())) {
                 this.modeObjet = objetsPossible.get(rand.nextInt(objetsPossible.size()));
 
+
             }
         }
 
@@ -164,7 +177,7 @@ public class GestionJeu {
 
         for (Aliens alien : this.aliens) {
             alien.evolue();
-            if (rand.nextDouble() <= niveau*0.001) {
+            if (rand.nextDouble() <= niveau*0.003) {
                 double max = this.niveau;
                 this.projectiles.add(new Projectile((int) alien.positionCanon(), (int) alien.getPosYAlien(), -(0.2 + (max - 0.2) * rand.nextDouble())));
             }
@@ -178,7 +191,7 @@ public class GestionJeu {
                 projectile.evolue();
             }
             // System.out.println(projectile);
-            if (projectile.positionY > this.largeur - 50) {
+            if (projectile.positionY > this.largeur - 30) {
                 this.projectiles.remove(i);
                 i--;
             }
@@ -209,10 +222,15 @@ public class GestionJeu {
             this.aliens.addAll(Arrays.asList(
                 new AlienEvoUn(this.largeur - 25, 50),
                 new AlienEvoUn(this.largeur - 55, 60),
-                new AlienEvoUn(this.largeur - 70, 70),
-                new AlienEvoUn(this.largeur - 25, 80),
-                new AlienEvoUn(this.largeur - 40, 90),
-                new AlienEvoUn(this.largeur - 20, 90)));
+                new AlienEvoUn(this.largeur - 20, 90),
+                new AlienEvoUn(this.largeur - 20, 100),
+                new AlienEvoUn(this.largeur - 40, 100),
+                new AlienEvoUn(this.largeur - 60, 120),
+                new AlienEvoUn(this.largeur - 60, 130),
+                new AlienEvoUn(this.largeur - 60, 150)));
+            case 3:
+            
+
         }
     }
 }

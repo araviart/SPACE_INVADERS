@@ -48,7 +48,7 @@ public class Aliens {
   }
 
   public void evolue() {
-    if (!etat && tour < 100) {
+    if (!etat && tour < 120) {
       posX += 0.1;
       tour++;
     } else if (!etat && tour >= 100) {

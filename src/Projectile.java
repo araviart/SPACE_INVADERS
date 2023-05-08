@@ -8,15 +8,9 @@ public class Projectile{
     this.positionX = positionX;
     this.positionY = 5;
     this.estAlien = false;
-    this.vitesseTir = 0.2;
+    this.vitesseTir = 0.5;
   }
 
-  public Projectile(double positionX,double positionY){
-    this.positionX = positionX;
-    this.positionY = positionY;
-    this.estAlien = true;
-    this.vitesseTir = 0.2;
-  }
 
   public Projectile(double positionX,double positionY, double vitesseTir){
     this.positionX = positionX;

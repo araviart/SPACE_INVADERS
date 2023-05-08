@@ -1,11 +1,13 @@
 public class AlienEvoUn extends Aliens {
   private double posX;
   private double posY;
-  private boolean etat;
-
+private int tour;
+private boolean droite;
   public AlienEvoUn(double posX, double posY) {
     super(posX, posY);
-    this.etat = false;
+    this.posX = posX;
+    this.posY = posY;
+    tour = 0;
   }
 
   @Override
@@ -19,12 +21,27 @@ public class AlienEvoUn extends Aliens {
     return alienEvoUn;
   }
 
-  public void evolue(double dx) {
-    this.posX += dx;
+  @Override
+  public void evolue() {
+    if (tour > 30) {
+      droite = !droite;
+      tour = 0;
+  }
+  if (droite) {
+      this.posX += 0.4;
+  } else {
+      this.posX -= 0.4;
+  }
+  this.posY -= 0.1;
+  tour++;
+}
+
+
+  public double getPosXAlien() {
+    return this.posX;
   }
 
-
-  public void setEtat(){
-    this.etat = true;
+  public double getPosYAlien() {
+    return this.posY;
   }
 }
