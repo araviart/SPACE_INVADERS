@@ -1,5 +1,4 @@
 public class Objet{
-  private int nbTir;
   private double posXObj;
   private double posYObj;
 
@@ -23,7 +22,7 @@ public class Objet{
 
   
   public void evolue(){
-    this.posYObj -= 0.2;
+    this.posYObj -= 0.1;
   }
   
   public double getPosYObj() {

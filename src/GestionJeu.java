@@ -27,7 +27,7 @@ public class GestionJeu {
         this.objet = new ArrayList<>();
         this.aliens = new ArrayList<>();
         this.alienTouche = new ArrayList<>();
-        this.objetsPossible = Arrays.asList("Nuke", "Contagion", "Multiple");
+        this.objetsPossible = Arrays.asList("Nuke", "Multiple");
 
         this.aliens.addAll(Arrays.asList(
                 new Aliens(this.largeur - 25, 50),
@@ -73,14 +73,13 @@ public class GestionJeu {
         tempsDernierTir = tempsActuel;
         switch (modeObjet) {
             case "Nuke":
-                this.projectiles.add(new ProjectileNuke((int) positionCanon));
+                this.projectiles.add(new ProjectileNuke((int) positionCanon - 10));
                 this.modeObjet = "Vanilla";
                 break;
-            case "Contagion":
-                this.projectiles.add(new Projectile((int) positionCanon));
-                this.modeObjet = "Vanilla";
             case "Multiple":
-                this.projectiles.add(new ProjectileNuke((int) positionCanon));
+                this.projectiles.add(new Projectile((int) positionCanon - 5));
+                this.projectiles.add(new Projectile((int) positionCanon + 5)); // création de deux projectiles
+                this.projectiles.add(new Projectile((int) positionCanon)); // projectile central
                 this.modeObjet = "Vanilla";
             default:
             case "Vanilla":
@@ -100,6 +99,7 @@ public class GestionJeu {
         }
         ensemble.ajouteChaine(5, this.hauteur - 3, String.valueOf(score));
         ensemble.ajouteChaine(this.largeur - 10, this.hauteur - 3, this.modeObjet);
+        ensemble.ajouteChaine(this.largeur - 15, this.hauteur - 3, String.valueOf(vaisseau.vie));
         for (Objet objet : this.objet) {
             ensemble.union(objet.getEnsembleChaines());
         }
@@ -113,16 +113,10 @@ public class GestionJeu {
         boolean alienATouche = false;
         for (Projectile proj : this.projectiles) {
             for (Aliens alien : this.aliens) {
-                if (alien.contient((int) proj.positionX, (int) proj.positionY)) {
+                if (!(proj.estAlien()) && alien.contient((int) proj.positionX, (int) proj.positionY)) {
                     alienTouche.add(alien);
                     alienATouche = true;
                     projectileQuiOntTouche.add(proj);
-                    if (this.modeObjet == "Contagion") {
-                        this.projectiles.add(new ProjectileContagion((int) alien.getPosXAlien(), alien.getPosYAlien()));
-                        this.projectiles.add(new ProjectileContagion((int) alien.getPosXAlien(), alien.getPosYAlien()));
-                        this.projectiles.add(new ProjectileContagion((int) alien.getPosXAlien(), alien.getPosYAlien()));
-                        this.projectiles.add(new ProjectileContagion((int) alien.getPosXAlien(), alien.getPosYAlien()));
-                    }
                 }
             }
         }
@@ -141,6 +135,14 @@ public class GestionJeu {
             }
         }
 
+        for (Projectile projectile : this.projectiles) {
+            if (projectile.estAlien()) {
+                if (vaisseau.contient((int) projectile.getPosProjectileX(), (int) projectile.getPosProjectileY())) {
+                    vaisseau.vie -= 1;
+                }
+            }
+        }
+
         // System.out.println(alienTouche);
         this.aliens.removeAll(alienTouche);
         this.projectiles.removeAll(projectileQuiOntTouche);
@@ -148,23 +150,17 @@ public class GestionJeu {
 
         for (Aliens alien : this.aliens) {
             alien.evolue();
+            if (rand.nextDouble() <= 0.001) {
+                this.projectiles.add(new Projectile((int) alien.positionCanon(), (int) alien.getPosYAlien()));
+            }
         }
 
         for (int i = 0; i < this.projectiles.size(); ++i) {
             Projectile projectile = this.projectiles.get(i);
-            if (this.modeObjet != "Contagion") {
+            if (projectile.estAlien()) {
+                projectile.evolue(0.2);
+            } else {
                 projectile.evolue();
-            if (projectile instanceof ProjectileContagion) {
-                ProjectileContagion projectileC = (ProjectileContagion) projectile;
-                if(projectileC.getEpidemie()){
-                    projectileC.evolue();
-                    
-                }
-        
-            } else if (projectile instanceof ProjectileContagion && alienATouche) {
-                ProjectileContagion projectileC = (ProjectileContagion) projectile;
-                projectileC.evolue();
-                projectileC.setEpidemie();
             }
             // System.out.println(projectile);
             if (projectile.positionY > this.largeur - 50) {
@@ -186,5 +182,4 @@ public class GestionJeu {
         alienTouche.clear();
         alienATouche = false;
     }
-}
 }
