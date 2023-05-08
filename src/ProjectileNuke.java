@@ -14,8 +14,7 @@ public class ProjectileNuke extends Projectile{
     return  projectileNuke;
     }
 
-    @Override
     public void evolue(){
-      this.positionY += 3;
+      this.positionY += 2;
     }
 }

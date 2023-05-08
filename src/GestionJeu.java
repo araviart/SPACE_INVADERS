@@ -18,6 +18,7 @@ public class GestionJeu {
     private List<Objet> objet;
     private List<String> objetsPossible;
     private String modeObjet;
+
     public GestionJeu() {
         this.largeur = 100;
         this.hauteur = 60;
@@ -26,7 +27,7 @@ public class GestionJeu {
         this.objet = new ArrayList<>();
         this.aliens = new ArrayList<>();
         this.alienTouche = new ArrayList<>();
-        this.objetsPossible = Arrays.asList( "Nuke", "Contagion", "Multiple");
+        this.objetsPossible = Arrays.asList("Nuke", "Contagion", "Multiple");
 
         this.aliens.addAll(Arrays.asList(
                 new Aliens(this.largeur - 25, 50),
@@ -70,20 +71,20 @@ public class GestionJeu {
         }
         double positionCanon = this.vaisseau.positionCanon();
         tempsDernierTir = tempsActuel;
-        switch(modeObjet){
+        switch (modeObjet) {
             case "Nuke":
-            this.projectiles.add(new ProjectileNuke((int) positionCanon));
-            this.modeObjet = "Vanilla";
-            break;
+                this.projectiles.add(new ProjectileNuke((int) positionCanon));
+                this.modeObjet = "Vanilla";
+                break;
             case "Contagion":
-            this.projectiles.add(new Projectile((int) positionCanon));
-            this.modeObjet = "Vanilla";
+                this.projectiles.add(new Projectile((int) positionCanon));
+                this.modeObjet = "Vanilla";
             case "Multiple":
-            this.projectiles.add(new ProjectileNuke((int) positionCanon));
-            this.modeObjet = "Vanilla";
+                this.projectiles.add(new ProjectileNuke((int) positionCanon));
+                this.modeObjet = "Vanilla";
             default:
             case "Vanilla":
-            this.projectiles.add(new Projectile((int) positionCanon));
+                this.projectiles.add(new Projectile((int) positionCanon));
         }// case switch en fonction de l'objet
 
     }
@@ -116,7 +117,7 @@ public class GestionJeu {
                     alienTouche.add(alien);
                     alienATouche = true;
                     projectileQuiOntTouche.add(proj);
-                    if(this.modeObjet == "Contagion"){
+                    if (this.modeObjet == "Contagion") {
                         this.projectiles.add(new ProjectileContagion((int) alien.getPosXAlien(), alien.getPosYAlien()));
                         this.projectiles.add(new ProjectileContagion((int) alien.getPosXAlien(), alien.getPosYAlien()));
                         this.projectiles.add(new ProjectileContagion((int) alien.getPosXAlien(), alien.getPosYAlien()));
@@ -149,10 +150,22 @@ public class GestionJeu {
             alien.evolue();
         }
 
-        // fait évoluer projectile
         for (int i = 0; i < this.projectiles.size(); ++i) {
             Projectile projectile = this.projectiles.get(i);
-            projectile.evolue();
+            if (this.modeObjet != "Contagion") {
+                projectile.evolue();
+            if (projectile instanceof ProjectileContagion) {
+                ProjectileContagion projectileC = (ProjectileContagion) projectile;
+                if(projectileC.getEpidemie()){
+                    projectileC.evolue();
+                    
+                }
+        
+            } else if (projectile instanceof ProjectileContagion && alienATouche) {
+                ProjectileContagion projectileC = (ProjectileContagion) projectile;
+                projectileC.evolue();
+                projectileC.setEpidemie();
+            }
             // System.out.println(projectile);
             if (projectile.positionY > this.largeur - 50) {
                 this.projectiles.remove(i);
@@ -173,4 +186,5 @@ public class GestionJeu {
         alienTouche.clear();
         alienATouche = false;
     }
+}
 }
