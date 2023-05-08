@@ -9,7 +9,7 @@ public class ProjectileNuke extends Projectile{
   
       // Incrémenter la variable de temps à chaque appel
       for(int i = 0; i < 100; i++){
-        projectileNuke.ajouteChaine((int)positionX, (int) positionY+i,"       █████████████       ");
+        projectileNuke.ajouteChaine((int)positionX, (int) positionY+i,"            █████████████           ");
     }
     return  projectileNuke;
     }

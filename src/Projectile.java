@@ -2,17 +2,21 @@ public class Projectile{
   public double positionX;
   public double positionY;
   private boolean estAlien;
+  public double vitesseTir;
 
   public Projectile(double positionX){
     this.positionX = positionX;
     this.positionY = 5;
     this.estAlien = false;
+    this.vitesseTir = 0.5;
   }
 
-  public Projectile(double positionX,double positionY){
+
+  public Projectile(double positionX,double positionY, double vitesseTir){
     this.positionX = positionX;
     this.positionY = positionY;
     this.estAlien = true;
+    this.vitesseTir = vitesseTir;
   }
 
   public EnsembleChaines getEnsembleChaines(){
@@ -22,8 +26,9 @@ public class Projectile{
   }
 
   public void evolue(){
-    this.positionY+=0.2;
+    this.positionY+=vitesseTir;
   }
+
 
   public void evolue(double vitesse){
     this.positionY -= vitesse;
@@ -36,7 +41,7 @@ public class Projectile{
 
 
   public double getPosProjectileX(){
-    return this.positionY;
+    return this.positionX;
   }
 
   public boolean estAlien(){

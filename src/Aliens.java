@@ -20,21 +20,20 @@ public class Aliens {
 
   public EnsembleChaines getEnsembleChaines() {
     EnsembleChaines alien = new EnsembleChaines();
-    alien.ajouteChaine((int) posX, (int) posY + 4, "  ▀▄   ▄▀  ");
-    alien.ajouteChaine((int) posX, (int) posY + 3, " ▄█▀███▀█▄ ");
-    alien.ajouteChaine((int) posX, (int) posY + 2, "█▀███████ █");
-    alien.ajouteChaine((int) posX, (int) posY + 1, "█ █▀▀▀▀▀█ █");
+    alien.ajouteChaine((int) posX, (int) posY + 4, "  ▀▄   ▄▀  ", "0x32CD32");
+    alien.ajouteChaine((int) posX, (int) posY + 3, " ▄█▀███▀█▄ ", "0x32CD32");
+    alien.ajouteChaine((int) posX, (int) posY + 2, "█▀███████ █", "0x32CD32");
+    alien.ajouteChaine((int) posX, (int) posY + 1, "█ █▀▀▀▀▀█ █", "0x32CD32");
 
     if (tour % 20 == 0) {
       estApparenceSpeciale = !estApparenceSpeciale;
     } else if (estApparenceSpeciale) {
-      alien.ajouteChaine((int) posX, (int) posY, "  ▀▀   ▀▀ ");
+      alien.ajouteChaine((int) posX, (int) posY, "  ▀▀   ▀▀ ", "0x32CD32");
     } else if (!estApparenceSpeciale || this.tour < 20) {
-      alien.ajouteChaine((int) posX, (int) posY, " ▀▀     ▀▀");
+      alien.ajouteChaine((int) posX, (int) posY, " ▀▀     ▀▀", "0x32CD32");
     }
     return alien;
-
-  }
+}
 
   public int getNbTour() {
     return this.tour;
@@ -49,7 +48,7 @@ public class Aliens {
   }
 
   public void evolue() {
-    if (!etat && tour < 100) {
+    if (!etat && tour < 120) {
       posX += 0.1;
       tour++;
     } else if (!etat && tour >= 100) {

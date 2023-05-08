@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class EnsembleChaines {
     ArrayList<ChainePositionnee> chaines;
@@ -10,6 +10,10 @@ public class EnsembleChaines {
 
     public void ajouteChaine(int x, int y, String c) {
         chaines.add(new ChainePositionnee(x, y, c));
+    }
+
+    public void ajouteChaine(int x, int y, String c, String couleur) {
+        chaines.add(new ChainePositionnee(x, y, c, couleur));
     }
 
     public void union(EnsembleChaines e) {

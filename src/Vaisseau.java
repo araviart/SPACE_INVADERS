@@ -17,7 +17,7 @@ public class Vaisseau {
   public EnsembleChaines getEnsembleChaines(){
     EnsembleChaines vaisseau = new EnsembleChaines();
     vaisseau.ajouteChaine((int)posX, 1, "█████████████");
-    vaisseau.ajouteChaine((int)posX, 2, "█████████████");
+    vaisseau.ajouteChaine((int)posX, 2, "    █████    ");
     vaisseau.ajouteChaine((int)posX, 3, "▄███████████▄");
     vaisseau.ajouteChaine((int)posX, 4, "     ███     ");
     vaisseau.ajouteChaine((int)posX, 5, "      ▄      ");
