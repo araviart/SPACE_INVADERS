@@ -164,7 +164,7 @@ public class GestionJeu {
 
         for (Aliens alien : this.aliens) {
             alien.evolue();
-            if (rand.nextDouble() <= niveau/1000) {
+            if (rand.nextDouble() <= niveau*0.001) {
                 double max = this.niveau;
                 this.projectiles.add(new Projectile((int) alien.positionCanon(), (int) alien.getPosYAlien(), -(0.2 + (max - 0.2) * rand.nextDouble())));
             }
