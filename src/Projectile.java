@@ -36,7 +36,7 @@ public class Projectile{
 
 
   public double getPosProjectileX(){
-    return this.positionY;
+    return this.positionX;
   }
 
   public boolean estAlien(){

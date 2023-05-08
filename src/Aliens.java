@@ -1,4 +1,6 @@
 import java.util.List;
+import javafx.scene.paint.Color;
+
 
 public class Aliens {
   private double posX;
@@ -20,21 +22,20 @@ public class Aliens {
 
   public EnsembleChaines getEnsembleChaines() {
     EnsembleChaines alien = new EnsembleChaines();
-    alien.ajouteChaine((int) posX, (int) posY + 4, "  ▀▄   ▄▀  ");
-    alien.ajouteChaine((int) posX, (int) posY + 3, " ▄█▀███▀█▄ ");
-    alien.ajouteChaine((int) posX, (int) posY + 2, "█▀███████ █");
-    alien.ajouteChaine((int) posX, (int) posY + 1, "█ █▀▀▀▀▀█ █");
+    alien.ajouteChaine((int) posX, (int) posY + 4, "  ▀▄   ▄▀  ", Color.GREEN);
+    alien.ajouteChaine((int) posX, (int) posY + 3, " ▄█▀███▀█▄ ", Color.GREEN);
+    alien.ajouteChaine((int) posX, (int) posY + 2, "█▀███████ █", Color.GREEN);
+    alien.ajouteChaine((int) posX, (int) posY + 1, "█ █▀▀▀▀▀█ █", Color.GREEN);
 
     if (tour % 20 == 0) {
       estApparenceSpeciale = !estApparenceSpeciale;
     } else if (estApparenceSpeciale) {
-      alien.ajouteChaine((int) posX, (int) posY, "  ▀▀   ▀▀ ");
+      alien.ajouteChaine((int) posX, (int) posY, "  ▀▀   ▀▀ ", Color.GREEN);
     } else if (!estApparenceSpeciale || this.tour < 20) {
-      alien.ajouteChaine((int) posX, (int) posY, " ▀▀     ▀▀");
+      alien.ajouteChaine((int) posX, (int) posY, " ▀▀     ▀▀", Color.GREEN);
     }
     return alien;
-
-  }
+}
 
   public int getNbTour() {
     return this.tour;

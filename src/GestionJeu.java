@@ -18,6 +18,7 @@ public class GestionJeu {
     private List<Objet> objet;
     private List<String> objetsPossible;
     private String modeObjet;
+    private int niveau;
 
     public GestionJeu() {
         this.largeur = 100;
@@ -28,6 +29,7 @@ public class GestionJeu {
         this.aliens = new ArrayList<>();
         this.alienTouche = new ArrayList<>();
         this.objetsPossible = Arrays.asList("Nuke", "Multiple");
+        this.niveau = 1;
 
         this.aliens.addAll(Arrays.asList(
                 new Aliens(this.largeur - 25, 50),
@@ -138,6 +140,7 @@ public class GestionJeu {
         for (Projectile projectile : this.projectiles) {
             if (projectile.estAlien()) {
                 if (vaisseau.contient((int) projectile.getPosProjectileX(), (int) projectile.getPosProjectileY())) {
+                    projectileQuiOntTouche.add(projectile);
                     vaisseau.vie -= 1;
                 }
             }

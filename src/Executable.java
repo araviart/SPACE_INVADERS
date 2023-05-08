@@ -33,7 +33,7 @@ public class Executable extends Application {
         for( ChainePositionnee c : gestionnaire.getChaines().chaines)
         {
             Text t = new Text (c.x*largeurCaractere,hauteur - c.y*hauteurTexte, c.c);
-            t.setFont(Font.font ("Monospaced", 10));
+            t.setFont(Font.font ("Monospaced", 11));
             caracteres.getChildren().add(t);
         }
     }
@@ -61,7 +61,7 @@ public class Executable extends Application {
             root= new AnchorPane(caracteres);
             gestionnaire = new GestionJeu();
             Text t=new Text("█");
-            t.setFont(Font.font("Monospaced",10));
+            t.setFont(Font.font("Monospaced",12));
             hauteurTexte =(int) t.getLayoutBounds().getHeight();
             largeurCaractere = (int) t.getLayoutBounds().getWidth();
 
