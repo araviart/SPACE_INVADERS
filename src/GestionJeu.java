@@ -21,7 +21,6 @@ import java.util.Random;
 public class GestionJeu {
     private int hauteur;
     private int largeur;
-    private int positionX = largeur;
     private Vaisseau vaisseau;
     private List<Projectile> projectiles;
     private List<Aliens> aliens;
@@ -334,7 +333,7 @@ public class GestionJeu {
                                                                   // (implique de changer la condition qui incrémente le
                                                                   // niveau dans GestionJeui)
             case 3:
-                this.getChaines();
+                break;
 
         }
     }
